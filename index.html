@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>masa — AI × Web Creative</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f7f5f0;
+    --bg2: #eeeae2;
+    --ink: #1a1814;
+    --ink2: #6b6760;
+    --accent: #2a5cff;
+    --accent2: #e8f0ff;
+    --border: rgba(26,24,20,0.1);
+  }
+  body { background: var(--bg); color: var(--ink); font-family: 'Noto Sans JP', sans-serif; font-weight: 300; overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 3rem; z-index: 100; background: rgba(247,245,240,0.88); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.08em; color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--ink2); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.25s; }
+  .nav-links a:hover { color: var(--ink); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 6rem 3rem 4rem; position: relative; overflow: hidden; }
+  .hero-circle { position: absolute; top: 8%; right: 5%; width: 420px; height: 420px; border-radius: 50%; background: var(--accent2); opacity: 0.6; pointer-events: none; }
+  .hero-circle2 { position: absolute; top: 22%; right: 18%; width: 200px; height: 200px; border-radius: 50%; border: 0.5px solid rgba(42,92,255,0.25); pointer-events: none; }
+  .hero-label { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 13vw, 11rem); line-height: 0.92; letter-spacing: -0.01em; color: var(--ink); }
+  .hero-title span { display: block; color: var(--accent); }
+  .hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 3rem; border-top: 0.5px solid var(--border); padding-top: 2rem; }
+  .hero-desc { max-width: 300px; font-size: 0.88rem; line-height: 1.9; color: var(--ink2); }
+  .cta-btn { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--accent); color: #fff; text-decoration: none; padding: 1rem 2rem; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; transition: opacity 0.25s; }
+  .cta-btn:hover { opacity: 0.85; }
+  section { padding: 6rem 3rem; border-top: 0.5px solid var(--border); }
+  .section-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink2); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; width: 40px; height: 0.5px; background: var(--ink2); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .service-item { background: #fff; border: 0.5px solid var(--border); border-radius: 4px; padding: 2.5rem 2rem; transition: box-shadow 0.25s, transform 0.25s; }
+  .service-item:hover { box-shadow: 0 8px 32px rgba(42,92,255,0.08); transform: translateY(-2px); }
+  .service-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: rgba(42,92,255,0.18); line-height: 1; margin-bottom: 1.25rem; }
+  .service-title { font-size: 1rem; font-weight: 500; margin-bottom: 0.75rem; color: var(--ink); }
+  .service-desc { font-size: 0.82rem; line-height: 1.85; color: var(--ink2); }
+  .service-tag { display: inline-block; margin-top: 1.25rem; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); background: var(--accent2); padding: 0.3rem 0.8rem; border-radius: 2px; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5.5vw, 4.5rem); line-height: 1.05; color: var(--ink); }
+  .about-headline em { font-style: normal; color: var(--accent); }
+  .about-text { font-size: 0.87rem; line-height: 2; color: var(--ink2); margin-top: 1.75rem; }
+  .tools-list { background: #fff; border: 0.5px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .tool-row { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.5rem; border-bottom: 0.5px solid var(--border); font-size: 0.84rem; transition: background 0.2s; }
+  .tool-row:last-child { border-bottom: none; }
+  .tool-row:hover { background: var(--bg); }
+  .tool-name { color: var(--ink); }
+  .tool-level { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent2); padding: 0.25rem 0.7rem; border-radius: 2px; }
+  .contact-section { text-align: center; padding: 8rem 3rem; background: var(--bg2); }
+  .contact-big { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 9vw, 8rem); letter-spacing: -0.01em; line-height: 1; color: var(--ink); margin-bottom: 1.5rem; }
+  .contact-big span { color: var(--accent); }
+  .contact-sub { font-size: 0.87rem; color: var(--ink2); margin-bottom: 0.5rem; line-height: 1.9; }
+  .contact-note { font-size: 0.78rem; color: var(--ink2); margin-bottom: 2.5rem; opacity: 0.7; }
+  .contact-links { display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+  .contact-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ink2); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; border: 0.5px solid var(--border); padding: 0.75rem 1.5rem; border-radius: 2px; background: #fff; transition: border-color 0.25s, color 0.25s; }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  footer { padding: 1.75rem 3rem; border-top: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.1em; color: var(--ink2); }
+  .footer-copy { font-size: 0.7rem; color: var(--ink2); }
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    .hero-bottom { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    section { padding: 4rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-section { padding: 5rem 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">masa</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-circle"></div>
+  <div class="hero-circle2"></div>
+  <div class="hero-label">AI × Web Creative — Kyoto based</div>
+  <h1 class="hero-title">
+    AI<span>&amp; Web</span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">AIを駆使して、あなたのビジネスに必要なWebサイト・デジタル制作物を高速・高品質でお届けします。</p>
+    <a href="#contact" class="cta-btn">無料相談はこちら →</a>
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-label">Services</div>
+  <div class="services-grid">
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div class="service-title">Webサイト制作</div>
+      <p class="service-desc">LP・コーポレートサイト・ポートフォリオなど。AIとモダン技術を活用し、スピーディに高品質なサイトを制作します。</p>
+      <span class="service-tag">Web Design</span>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div class="service-title">AI活用支援</div>
+      <p class="service-desc">Claude・Gemini等を用いた業務効率化・コンテンツ制作の自動化をサポート。中小企業向け導入支援も対応。</p>
+      <span class="service-tag">AI Consulting</span>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div class="service-title">デザイン制作</div>
+      <p class="service-desc">バナー・SNS素材・ブランドビジュアルなど。AIデザインツールを活用し、低コストで高品質なビジュアルを提供します。</p>
+      <span class="service-tag">Visual Design</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label">About</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="about-headline">
+        AI × Human<br><em>Creativity</em>
+      </h2>
+      <p class="about-text">
+        京都を拠点に、複数のAIツールを実務レベルで活用するクリエイターです。Claude・Gemini・各種画像生成AIを組み合わせ、従来より速く・安く・高品質なアウトプットを実現します。
+      </p>
+    </div>
+    <div class="tools-list">
+      <div class="tool-row">
+        <span class="tool-name">Claude / Gemini</span>
+        <span class="tool-level">メイン活用</span>
+      </div>
+      <div class="tool-row">
+        <span class="tool-name">Webサイト制作</span>
+        <span class="tool-level">対応可</span>
+      </div>
+      <div class="tool-row">
+        <span class="tool-name">画像・動画生成AI</span>
+        <span class="tool-level">実績あり</span>
+      </div>
+      <div class="tool-row">
+        <span class="tool-name">業務効率化支援</span>
+        <span class="tool-level">対応可</span>
+      </div>
+      <div class="tool-row">
+        <span class="tool-name">MacBook Pro M5</span>
+        <span class="tool-level">最新環境</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="contact-big">Let's<br><span>Work.</span></div>
+  <p class="contact-sub">まずはお気軽にご相談ください。<br>初回相談は無料です。</p>
+  <p class="contact-note">ご要望をお聞きした上でお見積もりいたします。</p>
+  <div class="contact-links">
+    <a href="mailto:ma1571465@gmail.com" class="contact-link">✉ メールで相談する</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">masa</div>
+  <div class="footer-copy">© 2026 masa. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
